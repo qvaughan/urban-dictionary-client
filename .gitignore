@@ -1,0 +1,15 @@
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+.DS_Store
+.idea
+*.iml
+.gradle
+build
+
+src/test/kotlin/com/levelwing/bato/shift/client/Main.kt
+
+*.log
