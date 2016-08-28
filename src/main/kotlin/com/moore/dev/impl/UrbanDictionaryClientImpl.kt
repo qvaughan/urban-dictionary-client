@@ -28,8 +28,11 @@ class UrbanDictionaryClientImpl(val mashapeApiKey: String) : UrbanDictionaryClie
         val result: SearchResults
         val searchResult = Unirest.get(Constants.URBAN_DICTIONARY_URL + URLEncoder.encode(searchTerm, "UTF-8")).headers(headers).asString()
         if (searchResult != null && !searchResult.equals("")) {
+
+            //create mapper
             val mapper = jacksonObjectMapper()
             try {
+                //attempt mapping
                 result = mapper.readValue(searchResult.body, SearchResults::class.java)
             } catch (ioException: IOException) {
                 throw ShitBallsException(ioException)
@@ -41,6 +44,10 @@ class UrbanDictionaryClientImpl(val mashapeApiKey: String) : UrbanDictionaryClie
         } else {
             throw ShitBallsException("Empty response from urban dictionary API.")
         }
+
+        //things must have gone well to get here - lets sort by
+        result.definitions?.sortedByDescending { it -> it.thumbsUp }
+
         return result
     }
 
